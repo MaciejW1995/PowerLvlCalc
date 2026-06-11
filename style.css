@@ -1,0 +1,75 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --accent-color: #00ffcc;
+  --main-font: "Roboto Slab", sans-serif;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  text-align: center;
+  background-color: var(--bg-color);
+  font-family: var(--main-font);
+  color: white;
+}
+
+.app {
+  width: 300px;
+  padding: 15px;
+  background-color: var(--card-bg);
+  border-radius: 15px;
+  margin: 0 auto;
+}
+
+.inputsBox {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+input {
+  width: 80%;
+  padding: 10px; /* Dodaje przestrzeń wewnątrz pola, żeby cyfry nie dotykały krawędzi */
+  border-radius: 5px;
+  border: none;
+}
+
+select {
+  width: 80%;
+  padding: 10px; /* Dodaje przestrzeń wewnątrz pola, żeby cyfry nie dotykały krawędzi */
+  border-radius: 5px;
+  border: none;
+}
+
+#calculate-btn{
+  margin-top: 10px;
+  width: 80%;
+  padding: 10px;
+  background-color: var(--accent-color);
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.7s ease;
+}
+
+#calculate-btn:hover{
+  filter: brightness(1.8);
+}
+
+#calculate-btn:active{
+  filter: brightness(0.6);
+}
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerLvl9000 - Max Rep Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <h1>PowerLvl9000</h1>
+        <h2>Measure your strength!</h2>
+        <div class="inputsBox">
+            <label for="exerciseType">Exercise Type</label>
+            <select id="exerciseType">
+                <option value="bench">Bench Press</option>
+                <option value="squat">Squat</option>
+                <option value="deadlift">Deadlift</option>
+                <option value="deadlift">Pushups</option>
+                <option value="pullup">Pull ups</option>
+            </select>
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <label for="weight">Weight</label>
+            <input id="weight" type="number">
+            <label for="reps">Reps</label>
+            <input id="reps" type="number">
+            <label for="userWeight">User's Weight</label>
+            <input id="userWeight" type="number">
+            <button id="calculate-btn">Check!</button>
+            
+        </div>
+        <div id="results"><p class="calculationResult"></p></div>
+    </div>
+
+
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
