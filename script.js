@@ -20,6 +20,21 @@ const standards = {
     }
 };
 
+const pullupStandards = {
+    pullUps: {
+        male:{
+            light: {weightLimit: 70, beginner: 4, intermediate: 11, advanced: 19, elite: 26},
+            medium: {weightLimit: 90, beginner: 2, intermediate: 9, advanced: 15, elite: 22},
+            heavy: {weightLimit: infity, beginner: 1, intermediate: 6, advanced: 12, elite: 18}
+        },
+        female: {
+            light: {weightLimit: 60, beginner: 1, intermediate: 5, advanced: 11, elite: 16},
+            medium: {weightLimit: 75, beginner: 0, intermediate: 3, advanced: 8, elite: 12},
+            heavy: {weightLimit: infity, beginner: 0, intermediate: 1, advanced: 4, elite: 8}
+        }
+    }
+}
+
 const epleyEcuation = () => {
     results.textContent = ``
     results.style.color = "white";
