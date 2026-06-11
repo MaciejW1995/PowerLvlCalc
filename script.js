@@ -3,8 +3,22 @@ const repsValue = document.querySelector("#reps");
 const results = document.querySelector(".calculationResult");
 const btnCalc = document.querySelector("#calculate-btn");
 const userWeight = document.querySelector("#userWeight");
+const exerciseType = document.querySelector("#exerciseType");
+const gender = document.querySelector("#gender");
 
 
+const standards = {
+    male: {
+        benchPress: { beginner: 0.75, intermediate: 1.25, advanced: 1.5, elite: 2.0 },
+        squat: { beginner: 1.0, intermediate: 1.5, advanced: 2.0, elite: 2.5 },
+        deadlift: { beginner: 1.25, intermediate: 1.75, advanced: 2.25, elite: 2.75 }
+    },
+    female: { 
+        benchPress: { beginner: 0.5, intermediate: 0.75, advanced: 1.0, elite: 1.25 },
+        squat: { beginner: 0.75, intermediate: 1.0, advanced: 1.5, elite: 2.0 },
+        deadlift: { beginner: 1.0, intermediate: 1.75, advanced: 1.75, elite: 2.25 }
+    }
+};
 
 const epleyEcuation = () => {
     results.textContent = ``
