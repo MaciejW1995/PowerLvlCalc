@@ -16,21 +16,33 @@ const standards = {
     female: { 
         benchPress: { beginner: 0.5, intermediate: 0.75, advanced: 1.0, elite: 1.25 },
         squat: { beginner: 0.75, intermediate: 1.0, advanced: 1.5, elite: 2.0 },
-        deadlift: { beginner: 1.0, intermediate: 1.75, advanced: 1.75, elite: 2.25 }
+        deadlift: { beginner: 1.0, intermediate: 1.25, advanced: 1.75, elite: 2.25 }
     }
 };
 
-const pullupStandards = {
+const bodyweightStandards = {
     pullUps: {
         male:{
             light: {weightLimit: 70, beginner: 4, intermediate: 11, advanced: 19, elite: 26},
             medium: {weightLimit: 90, beginner: 2, intermediate: 9, advanced: 15, elite: 22},
-            heavy: {weightLimit: infity, beginner: 1, intermediate: 6, advanced: 12, elite: 18}
+            heavy: {weightLimit: Infinity, beginner: 1, intermediate: 6, advanced: 12, elite: 18}
         },
         female: {
             light: {weightLimit: 60, beginner: 1, intermediate: 5, advanced: 11, elite: 16},
             medium: {weightLimit: 75, beginner: 0, intermediate: 3, advanced: 8, elite: 12},
-            heavy: {weightLimit: infity, beginner: 0, intermediate: 1, advanced: 4, elite: 8}
+            heavy: {weightLimit: Infinity, beginner: 0, intermediate: 1, advanced: 4, elite: 8}
+        }
+    },
+    pushUps: {
+        male:{
+            light: {weightLimit: 70, beginner: 15, intermediate: 35, advanced: 55, elite: 75},
+            medium: {weightLimit: 90, beginner: 10, intermediate: 30, advanced: 50, elite: 70},
+            heavy: {weightLimit: Infinity, beginner: 5, intermediate: 25, advanced: 40, elite: 60},
+        },
+        female:{
+            light: {weightLimit: 60, beginner: 5, intermediate: 15, advanced: 30, elite: 45},
+            medium: {weightLimit: 75, beginner: 2, intermediate: 10, advanced: 20, elite: 35},
+            heavy: {weightLimit: Infinity, beginner: 0, intermediate: 5, advanced: 15, elite: 25},
         }
     }
 }
