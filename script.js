@@ -3,6 +3,7 @@ const repsValue = document.querySelector("#reps");
 const results = document.querySelector(".calculationResult");
 const btnCalc = document.querySelector("#calculate-btn");
 const userWeight = document.querySelector("#userWeight");
+const weightLabel = document.querySelector('label[for="weight"]');
 const exerciseType = document.querySelector("#exerciseType");
 const gender = document.querySelector("#gender");
 
@@ -47,6 +48,17 @@ const bodyweightStandards = {
     }
 }
 
+const hideWeight = () => {
+    const selectedExercise = exerciseType.value;
+    if(selectedExercise === 'pushups' || selectedExercise === 'pullups'){
+        weightValue.classList.add('hidden');
+        weightLabel.classList.add('hidden');
+    }else{
+        weightValue.classList.remove('hidden');
+        weightLabel.classList.remove('hidden');
+    }
+}
+
 const epleyEcuation = () => {
     results.textContent = ``
     results.style.color = "white";
@@ -58,7 +70,34 @@ const epleyEcuation = () => {
 
 
     if(selectedExercise === 'pushups' || selectedExercise === 'pullups'){
-        //bodyweight - cals
+        let reps = repsValue.valueAsNumber;
+        let userWeightNumber = userWeight.valueAsNumber;
+
+        if(reps > 0 && userWeightNumber > 0){
+            const categoryData = bodyweightStandards[selectedExercise][selectedGender];
+            let limits;
+
+            if(userWeightNumber <= categoryData.light.weightLimit){
+                limits = categoryData.light;
+            }else if(userWeightNumber <= categoryData.medium.weightLimit){
+                limits = categoryData.medium;
+            }else{
+                limits = categoryData.heavy;
+            }
+
+            if(reps >= limits.elite){
+                results.textContent = `Reps: ${reps}. Level: ELITE! (Gold Medal)`;
+                results.style.color = "#ffd700";
+            }else if(reps >= limits.advanced){
+                results.textContent = `Reps: ${reps}. Level: Advanced! (Silver Medal)`;
+                results.style.color = "#c0c0c0";
+            }else if(reps >= limits.intermediate){
+                results.textContent = `Reps: ${reps}. Level: Intermediate! (Bronze Medal)`;
+                results.style.color = "#cd7f32";
+            }else{
+                results.textContent = `Reps: ${reps}. Level: Beginner! Keep training!`;}
+        }
+        
     } else { //weighted exercises
         const limits = standards[selectedGender][selectedExercise];
         if (weightValue.value > 0 && repsValue.value > 0 && userWeight.value > 0) {
@@ -69,16 +108,16 @@ const epleyEcuation = () => {
         let relativeStrength = score / userWeightNumber;
         //Weight partitioning
         if (relativeStrength >= limits.elite) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Niesamowita wręcz nadludzka siła, 0,1% populacji! Otrzymujesz złoto!`;
+            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Incredible, almost superhuman strength, 0.1% of the population! Keep the gold!`;
             results.style.color = "#ffd700"; // Złoto
         } else if (relativeStrength >= limits.advanced) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Klasyfikuje Cię to jako średnio zaawansowany. Brawo otrzymujesz srebro!`;
+            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. This puts you at advanced level. Congratulations, you've earned a silver medal!`;
             results.style.color = "#c0c0c0"; // Srebro
         } else if (relativeStrength >= limits.intermediate) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Jesteś na poziomie przeciętnym. Dobra baza do dalszej pracy! Otrzymujesz brąz.`;
+            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. You're at an intermediate level. A good foundation for further development! You receive a bronze medal.`;
             results.style.color = "#cd7f32";
         } else {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Klasyfikuje Cię to jako początkujący. Spokojnie, każdy kiedyś zaczynał!`;
+            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. This classifies you as a beginner. Don't worry, everyone was a beginner at some point!`;
             results.style.color = "#ffffff";
         }
     } else if (weightValue.value <= 0 || repsValue.value <= 0 || userWeight.value <= 0) {
@@ -89,4 +128,5 @@ const epleyEcuation = () => {
     
 }
 
+exerciseType.addEventListener('change', hideWeight);
 btnCalc.addEventListener("click", epleyEcuation);
