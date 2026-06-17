@@ -106,6 +106,7 @@ const epleyEcuation = () => {
         let userWeightNumber = userWeight.valueAsNumber;
         let score = weight * (1 + reps / 30);
         let relativeStrength = score / userWeightNumber;
+        relativeStrength = Math.round(relativeStrength * 100) / 100;
         //Weight partitioning
         if (relativeStrength >= limits.elite) {
             results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Incredible, almost superhuman strength, 0.1% of the population! Keep the gold!`;
