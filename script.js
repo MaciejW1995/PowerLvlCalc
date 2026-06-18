@@ -7,7 +7,7 @@ const weightLabel = document.querySelector('label[for="weight"]');
 const exerciseType = document.querySelector("#exerciseType");
 const gender = document.querySelector("#gender");
 
-
+// --- Standards for lifting ---
 const standards = {
     male: {
         bench: { beginner: 0.75, intermediate: 1.25, advanced: 1.5, elite: 2.0 },
@@ -23,111 +23,133 @@ const standards = {
 
 const bodyweightStandards = {
     pullups: {
-        male:{
-            light: {weightLimit: 70, beginner: 4, intermediate: 11, advanced: 19, elite: 26},
-            medium: {weightLimit: 90, beginner: 2, intermediate: 9, advanced: 15, elite: 22},
-            heavy: {weightLimit: Infinity, beginner: 1, intermediate: 6, advanced: 12, elite: 18}
+        male: {
+            light: { weightLimit: 70, beginner: 4, intermediate: 11, advanced: 19, elite: 26 },
+            medium: { weightLimit: 90, beginner: 2, intermediate: 9, advanced: 15, elite: 22 },
+            heavy: { weightLimit: Infinity, beginner: 1, intermediate: 6, advanced: 12, elite: 18 }
         },
         female: {
-            light: {weightLimit: 60, beginner: 1, intermediate: 5, advanced: 11, elite: 16},
-            medium: {weightLimit: 75, beginner: 0, intermediate: 3, advanced: 8, elite: 12},
-            heavy: {weightLimit: Infinity, beginner: 0, intermediate: 1, advanced: 4, elite: 8}
+            light: { weightLimit: 60, beginner: 1, intermediate: 5, advanced: 11, elite: 16 },
+            medium: { weightLimit: 75, beginner: 0, intermediate: 3, advanced: 8, elite: 12 },
+            heavy: { weightLimit: Infinity, beginner: 0, intermediate: 1, advanced: 4, elite: 8 }
         }
     },
     pushups: {
-        male:{
-            light: {weightLimit: 70, beginner: 15, intermediate: 35, advanced: 55, elite: 75},
-            medium: {weightLimit: 90, beginner: 10, intermediate: 30, advanced: 50, elite: 70},
-            heavy: {weightLimit: Infinity, beginner: 5, intermediate: 25, advanced: 40, elite: 60},
+        male: {
+            light: { weightLimit: 70, beginner: 15, intermediate: 35, advanced: 55, elite: 75 },
+            medium: { weightLimit: 90, beginner: 10, intermediate: 30, advanced: 50, elite: 70 },
+            heavy: { weightLimit: Infinity, beginner: 5, intermediate: 25, advanced: 40, elite: 60 },
         },
-        female:{
-            light: {weightLimit: 60, beginner: 5, intermediate: 15, advanced: 30, elite: 45},
-            medium: {weightLimit: 75, beginner: 2, intermediate: 10, advanced: 20, elite: 35},
-            heavy: {weightLimit: Infinity, beginner: 0, intermediate: 5, advanced: 15, elite: 25},
+        female: {
+            light: { weightLimit: 60, beginner: 5, intermediate: 15, advanced: 30, elite: 45 },
+            medium: { weightLimit: 75, beginner: 2, intermediate: 10, advanced: 20, elite: 35 },
+            heavy: { weightLimit: Infinity, beginner: 0, intermediate: 5, advanced: 15, elite: 25 },
         }
     }
-}
+};
 
+// Hiding and showing weight input
 const hideWeight = () => {
     const selectedExercise = exerciseType.value;
-    if(selectedExercise === 'pushups' || selectedExercise === 'pullups'){
+    if (selectedExercise === 'pushups' || selectedExercise === 'pullups') {
         weightValue.classList.add('hidden');
         weightLabel.classList.add('hidden');
-    }else{
+        weightValue.value = ""; // Dobra praktyka: czyszczenie ukrytego pola
+    } else {
         weightValue.classList.remove('hidden');
         weightLabel.classList.remove('hidden');
     }
-}
+};
 
-const epleyEcuation = () => {
-    results.textContent = ``
+// --- GŁÓWNA LOGIKA ---
+const calculateScore = () => {
+    // 1. Reseting results
+    results.textContent = "";
     results.style.color = "white";
 
+    // 2. Getting values form certain variables
     const selectedExercise = exerciseType.value;
     const selectedGender = gender.value;
-    //const limits = standards[selectedExercise][selectedGender];
-    console.log(selectedExercise,selectedGender);
+    const reps = repsValue.valueAsNumber;
+    const userWeightNumber = userWeight.valueAsNumber;
 
+    // 3. Data validation
+    if (isNaN(reps) || reps <= 0 || isNaN(userWeightNumber) || userWeightNumber <= 0) {
+        results.textContent = "Please fill in all required fields with correct values!";
+        results.style.color = "red";
+        return;
+    }
 
-    if(selectedExercise === 'pushups' || selectedExercise === 'pullups'){
-        let reps = repsValue.valueAsNumber;
-        let userWeightNumber = userWeight.valueAsNumber;
+    // Variables to show results
+    let finalMessage = "";
+    let finalColor = "";
 
-        if(reps > 0 && userWeightNumber > 0){
-            const categoryData = bodyweightStandards[selectedExercise][selectedGender];
-            let limits;
+    // 4. Using weight of your body
+    if (selectedExercise === 'pushups' || selectedExercise === 'pullups') {
+        // --- ŚCIEŻKA A: Bodyweight ---
+        const categoryData = bodyweightStandards[selectedExercise][selectedGender];
+        let limits;
 
-            if(userWeightNumber <= categoryData.light.weightLimit){
-                limits = categoryData.light;
-            }else if(userWeightNumber <= categoryData.medium.weightLimit){
-                limits = categoryData.medium;
-            }else{
-                limits = categoryData.heavy;
-            }
+        if (userWeightNumber <= categoryData.light.weightLimit) {
+            limits = categoryData.light;
+        } else if (userWeightNumber <= categoryData.medium.weightLimit) {
+            limits = categoryData.medium;
+        } else {
+            limits = categoryData.heavy;
+        }
 
-            if(reps >= limits.elite){
-                results.textContent = `Reps: ${reps}. Level: ELITE! (Gold Medal)`;
-                results.style.color = "#ffd700";
-            }else if(reps >= limits.advanced){
-                results.textContent = `Reps: ${reps}. Level: Advanced! (Silver Medal)`;
-                results.style.color = "#c0c0c0";
-            }else if(reps >= limits.intermediate){
-                results.textContent = `Reps: ${reps}. Level: Intermediate! (Bronze Medal)`;
-                results.style.color = "#cd7f32";
-            }else{
-                results.textContent = `Reps: ${reps}. Level: Beginner! Keep training!`;}
+        if (reps >= limits.elite) {
+            finalMessage = `Reps: ${reps}. Level: ELITE! (Gold Medal)`;
+            finalColor = "#ffd700";
+        } else if (reps >= limits.advanced) {
+            finalMessage = `Reps: ${reps}. Level: Advanced! (Silver Medal)`;
+            finalColor = "#c0c0c0";
+        } else if (reps >= limits.intermediate) {
+            finalMessage = `Reps: ${reps}. Level: Intermediate! (Bronze Medal)`;
+            finalColor = "#cd7f32";
+        } else {
+            finalMessage = `Reps: ${reps}. Level: Beginner! Keep training!`;
+            finalColor = "#ffffff";
+        }
+
+    } else {
+        // Using weights
+        const weight = weightValue.valueAsNumber;
+        
+        // Dodatkowa walidacja ciężaru dla sztangi
+        if (isNaN(weight) || weight <= 0) {
+            results.textContent = "Please enter the barbell weight!";
+            results.style.color = "red";
+            return;
+        }
+
+        const limits = standards[selectedGender][selectedExercise];
+        const score = weight * (1 + reps / 30);
+        let relativeStrength = Math.round((score / userWeightNumber) * 100) / 100;
+
+        let description = "";
+        if (relativeStrength >= limits.elite) {
+            description = "Incredible, almost superhuman strength, 0.1% of the population! Keep the gold!";
+            finalColor = "#ffd700";
+        } else if (relativeStrength >= limits.advanced) {
+            description = "This puts you at advanced level. Congratulations, you've earned a silver medal!";
+            finalColor = "#c0c0c0";
+        } else if (relativeStrength >= limits.intermediate) {
+            description = "You're at an intermediate level. A good foundation for further development! You receive a bronze medal.";
+            finalColor = "#cd7f32";
+        } else {
+            description = "This classifies you as a beginner. Don't worry, everyone was a beginner at some point!";
+            finalColor = "#ffffff";
         }
         
-    } else { //weighted exercises
-        const limits = standards[selectedGender][selectedExercise];
-        if (weightValue.value > 0 && repsValue.value > 0 && userWeight.value > 0) {
-        let weight = weightValue.valueAsNumber;
-        let reps = repsValue.valueAsNumber;
-        let userWeightNumber = userWeight.valueAsNumber;
-        let score = weight * (1 + reps / 30);
-        let relativeStrength = score / userWeightNumber;
-        relativeStrength = Math.round(relativeStrength * 100) / 100;
-        //Weight partitioning
-        if (relativeStrength >= limits.elite) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. Incredible, almost superhuman strength, 0.1% of the population! Keep the gold!`;
-            results.style.color = "#ffd700"; // Złoto
-        } else if (relativeStrength >= limits.advanced) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. This puts you at advanced level. Congratulations, you've earned a silver medal!`;
-            results.style.color = "#c0c0c0"; // Srebro
-        } else if (relativeStrength >= limits.intermediate) {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. You're at an intermediate level. A good foundation for further development! You receive a bronze medal.`;
-            results.style.color = "#cd7f32";
-        } else {
-            results.textContent = `Twój max: ${score.toFixed(2)}kg. Stosunek: ${relativeStrength.toFixed(2)}. This classifies you as a beginner. Don't worry, everyone was a beginner at some point!`;
-            results.style.color = "#ffffff";
-        }
-    } else if (weightValue.value <= 0 || repsValue.value <= 0 || userWeight.value <= 0) {
-        results.textContent = `Proszę uzupełnić wszystkie pola!`
-        results.style.color = "red";
+        finalMessage = `Max: ${score.toFixed(2)}kg. Ratio: ${relativeStrength.toFixed(2)}. ${description}`;
     }
-    }
-    
+
+    // 5. One-time assignment of results to the DOM
+    results.textContent = finalMessage;
+    results.style.color = finalColor;
 }
 
+// --- LISTENRS ---
 exerciseType.addEventListener('change', hideWeight);
-btnCalc.addEventListener("click", epleyEcuation);
+btnCalc.addEventListener("click", calculateScore);
