@@ -61,7 +61,7 @@ const hideWeight = () => {
     }
 };
 
-// --- GŁÓWNA LOGIKA ---
+
 const calculateScore = () => {
     // 1. Reseting results
     results.textContent = "";
@@ -86,7 +86,7 @@ const calculateScore = () => {
 
     // 4. Using weight of your body
     if (selectedExercise === 'pushups' || selectedExercise === 'pullups') {
-        // --- ŚCIEŻKA A: Bodyweight ---
+        // --- Bodyweight ---
         const categoryData = bodyweightStandards[selectedExercise][selectedGender];
         let limits;
 
@@ -116,7 +116,7 @@ const calculateScore = () => {
         // Using weights
         const weight = weightValue.valueAsNumber;
         
-        // Dodatkowa walidacja ciężaru dla sztangi
+        // Validation for barbell
         if (isNaN(weight) || weight <= 0) {
             results.textContent = "Please enter the barbell weight!";
             results.style.color = "red";
@@ -150,6 +150,6 @@ const calculateScore = () => {
     results.style.color = finalColor;
 }
 
-// --- LISTENRS ---
+// Listeners
 exerciseType.addEventListener('change', hideWeight);
 btnCalc.addEventListener("click", calculateScore);

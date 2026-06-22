@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('PowerLvlCalc Regression Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('https://maciejw1995.github.io/PowerLvlCalc/');
+    await page.goto('/');
   });
 
   test('loading domain - checking for correct UI elements', async ({ page }) => {
@@ -41,4 +41,30 @@ test.describe('PowerLvlCalc Regression Tests', () => {
     const expectedMessage = /Max: 77\.27kg\. Ratio: 1\.29\. You're at an intermediate level.*bronze medal\./;
     await expect(page.locator('.calculationResult')).toHaveText(expectedMessage);
   });
+
+  test('E2E tests for Bench Press with BVA analysis for Male', async ({ page }) => {
+    const benchBorders = [
+      { weight: '30', reps: '30', userWeight: '80', expectedRatio: '0.75', expectedMedal: 'Beginner'},
+      { weight: '50', reps: '30', userWeight: '80', expectedRatio: '1.25', expectedMedal: 'Bronze'},
+      { weight: '60', reps: '30', userWeight: '80', expectedRatio: '1.50', expectedMedal: 'Silver'},
+      { weight: '80', reps: '30', userWeight: '80', expectedRatio: '2.00', expectedMedal: 'Gold'}
+    ];
+
+    for (const border of benchBorders) {
+      await page.getByLabel('Exercise Type').selectOption('bench');
+      await page.getByLabel('Gender').selectOption('male');
+      await page.getByRole('spinbutton', { name: 'Weight', exact: true }).fill(border.weight);
+      await page.getByRole('spinbutton', { name: 'Reps' }).fill(border.reps);
+      await page.getByRole('spinbutton', { name: "User's Weight" }).fill(border.userWeight);
+
+      await page.getByRole('button', { name: 'Check!' }).click();
+
+    // Validate result
+      const resultLocator = page.locator('.calculationResult');
+      await expect(resultLocator).toContainText(`${border.expectedRatio}`);
+      await expect(resultLocator).toContainText(border.expectedMedal, {ignoreCase:true});
+    }
+
+  });
+
 });
