@@ -6,6 +6,24 @@ const userWeight = document.querySelector("#userWeight");
 const weightLabel = document.querySelector('label[for="weight"]');
 const exerciseType = document.querySelector("#exerciseType");
 const gender = document.querySelector("#gender");
+const modeBtn = document.querySelector(".dayMode");
+const body = document.querySelector("body");
+
+if(localStorage.getItem('theme') === 'light'){
+    body.classList.add('light-theme');
+    modeBtn.textContent = 'Dark Mode';
+}
+
+const modeChange = () => {
+    body.classList.toggle('light-theme');
+    if(body.classList.contains('light-theme')){
+        modeBtn.textContent = 'Dark Mode';
+        localStorage.setItem('theme', 'light');
+    } else {
+        modeBtn.textContent = 'Light Mode';
+        localStorage.setItem('theme', 'dark');
+    }
+}
 
 // --- Standards for lifting ---
 const standards = {
@@ -153,3 +171,4 @@ const calculateScore = () => {
 // Listeners
 exerciseType.addEventListener('change', hideWeight);
 btnCalc.addEventListener("click", calculateScore);
+modeBtn.addEventListener('click', modeChange);

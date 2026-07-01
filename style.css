@@ -23,6 +23,33 @@ body {
   color: white;
 }
 
+body.light-theme {
+  background-color: #f0f2f5;
+  color: #222;
+}
+
+body.light-theme .app{
+  background-color: #fff;
+  box-shadow: 0x 4px 15px rgba(0, 0, 0, 0.1);
+  color: #222;
+}
+
+body.light-theme label{
+  color: #222;
+}
+
+body.light-theme input{
+  background-color: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+body.light-theme select{
+  background-color: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
 .app {
   width: 300px;
   padding: 15px;
@@ -77,3 +104,24 @@ select {
   display: none !important;
 }
 
+.dayModeContainer {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+  padding-right: 10%;
+}
+
+.dayMode {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--accent-color);
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.7s ease;
+}
+
+.dayMode:hover{
+  filter: brightness(1.8);
+}
