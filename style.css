@@ -30,7 +30,7 @@ body.light-theme {
 
 body.light-theme .app{
   background-color: #fff;
-  box-shadow: 0x 4px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0x 4px 15px rgba(0, 0, 0, 0.1);*/
   color: #222;
 }
 
@@ -69,16 +69,16 @@ body.light-theme select{
 
 input {
   width: 80%;
-  padding: 10px; /* Dodaje przestrzeń wewnątrz pola, żeby cyfry nie dotykały krawędzi */
+  padding: 10px; 
+  border: 1px solid #000000;
   border-radius: 5px;
-  border: none;
 }
 
 select {
   width: 80%;
-  padding: 10px; /* Dodaje przestrzeń wewnątrz pola, żeby cyfry nie dotykały krawędzi */
+  padding: 10px; 
+  border: 1px solid #000000;
   border-radius: 5px;
-  border: none;
 }
 
 #calculate-btn{
